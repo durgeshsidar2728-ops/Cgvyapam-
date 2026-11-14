@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Pathshala - Online Quiz</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#172033}
+header{background:#172554;color:white;padding:22px 16px}
+header h1{margin:0;font-size:27px}
+header p{margin:8px 0 0;color:#dbeafe}
+nav{background:white;padding:13px;display:flex;gap:18px;overflow:auto}
+nav a{color:#172554;text-decoration:none;font-weight:bold;white-space:nowrap}
+main{max-width:900px;margin:auto;padding:18px}
+.hero{background:linear-gradient(120deg,#1d4ed8,#4338ca);color:white;padding:25px;border-radius:16px}
+.hero h2{margin-top:0}
+.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:9px;margin:18px 0;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
+.card{background:white;padding:18px;border-radius:13px;box-shadow:0 2px 9px #0000000d}
+.card h3{margin:5px 0 9px}
+.card p{color:#64748b;font-size:14px}
+button{background:#2563eb;color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer}
+button:hover{background:#1d4ed8}
+#quiz{display:none;background:white;padding:20px;border-radius:14px;margin-top:20px}
+.option{display:block;width:100%;text-align:left;margin:10px 0;background:#eef2ff;color:#172033}
+.option:focus,.option:hover{background:#dbeafe}
+#result{font-weight:bold;margin-top:15px}
+footer{text-align:center;padding:25px;color:#64748b}
+</style>
+</head>
+<body>
+<header>
+<h1>📚 Exam Pathshala</h1>
+<p>SSC | Railway | Banking | CG Vyapam</p>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#exams">Exams</a>
+<a href="#quiz">Online Quiz</a>
+</nav>
+
+<main id="home">
+<section class="hero">
+<h2>आपकी सफलता की तैयारी यहाँ से!</h2>
+<p>प्रतियोगी परीक्षाओं की तैयारी करें ऑनलाइन MCQ टेस्ट के साथ।</p>
+<button onclick="showQuiz()">Free Quiz शुरू करें</button>
+</section>
+
+<input class="search" id="search" placeholder="अपनी परीक्षा खोजें..." oninput="filterCards()">
+
+<h2 id="exams">अपनी परीक्षा चुनें</h2>
+<div class="grid" id="cards">
+<div class="card">
+<h3>📘 SSC</h3>
+<p>CGL, CHSL, MTS और GD</p>
+<button onclick="showQuiz()">Practice करें</button>
+</div>
+<div class="card">
+<h3>🚆 Railway</h3>
+<p>NTPC, Group D और ALP</p>
+<button onclick="showQuiz()">Practice करें</button>
+</div>
+<div class="card">
+<h3>🏦 Banking</h3>
+<p>IBPS, SBI और Clerk</p>
+<button onclick="showQuiz()">Practice करें</button>
+</div>
+<div class="card">
+<h3>छत्तीसगढ़ Vyapam</h3>
+<p>CG GK और अन्य विषय</p>
+<button onclick="showQuiz()">Practice करें</button>
+</div>
+</div>
+
+<section id="quiz">
+<h2>📝 Demo Online Quiz</h2>
+<p id="progress"></p>
+<h3 id="question"></h3>
+<div id="options"></div>
+<div id="result"></div>
+<button id="next" onclick="nextQuestion()">अगला प्रश्न</button>
+</section>
+</main>
+
+<footer>
+<p>© 2026 Exam Pathshala | आपकी मेहनत, आपकी सफलता</p>
+</footer>
+
+<script>
+const questions=[
+{q:"छत्तीसगढ़ राज्य का गठन कब हुआ?",o:["1 नवंबर 2000","1 मई 2000","15 अगस्त 2001","26 जनवरी 2000"],a:0},
+{q:"भारत की राजधानी क्या है?",o:["मुंबई","नई दिल्ली","कोलकाता","चेन्नई"],a:1},
+{q:"2 + 8 × 2 का मान क्या है?",o:["20","18","16","12"],a:1},
+{q:"भारत का केंद्रीय बैंक कौन सा है?",o:["SBI","PNB","RBI","BOI"],a:2},
+{q:"कंप्यूटर का मस्तिष्क किसे कहा जाता है?",o:["Monitor","CPU","Mouse","Keyboard"],a:1}
+];
+let current=0,score=0,answered=false;
+
+function showQuiz(){
+document.getElementById("quiz").style.display="block";
+current=0;score=0;loadQuestion();
+document.getElementById("quiz").scrollIntoView({behavior:"smooth"});
+}
+function loadQuestion(){
+answered=false;
+document.getElementById("progress").textContent="प्रश्न "+(current+1)+" / "+questions.length;
+document.getElementById("question").textContent=questions[current].q;
+document.getElementById("result").textContent="";
+document.getElementById("next").textContent=current===questions.length-1?"Result देखें":"अगला प्रश्न";
+document.getElementById("options").innerHTML="";
+questions[current].o.forEach((option,i)=>{
+let b=document.createElement("button");
+b.textContent=String.fromCharCode(65+i)+". "+option;
+b.className="option";
+b.onclick=()=>checkAnswer(i);
+document.getElementById("options").appendChild(b);
+});
+}
+function checkAnswer(i){
+if(answered)return;
+answered=true;
+if(i===questions[current].a){
+score++;
+document.getElementById("result").textContent="✅ सही उत्तर!";
+}else{
+document.getElementById("result").textContent="❌ गलत! सही उत्तर: "+questions[current].o[questions[current].a];
+}
+}
+function nextQuestion(){
+if(!answered){
+document.getElementById("result").textContent="पहले एक उत्तर चुनें।";
+return;
+}
+if(current<questions.length-1){
+current++;loadQuestion();
+}else{
+document.getElementById("question").textContent="आपका टेस्ट पूरा हुआ!";
+document.getElementById("options").innerHTML="";
+document.getElementById("progress").textContent="कुल प्रश्न: "+questions.length;
+document.getElementById("result").textContent="आपका स्कोर: "+score+" / "+questions.length;
+document.getElementById("next").textContent="दोबारा टेस्ट दें";
+document.getElementById("next").onclick=showQuiz;
+}
+}
+function filterCards(){
+let value=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll(".card").forEach(card=>{
+card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
+});
+}
+</script>
+</body>
+</html>
