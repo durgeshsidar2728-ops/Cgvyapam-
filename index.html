@@ -3,154 +3,440 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Pathshala - Online Quiz</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CG Vyapam Exam Pathshala</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#172033}
-header{background:#172554;color:white;padding:22px 16px}
-header h1{margin:0;font-size:27px}
+body{margin:0;background:#f3f5fb;color:#172033;font-family:Arial,sans-serif}
+header{background:#172554;color:white;padding:20px}
+header h1{margin:0;font-size:25px}
 header p{margin:8px 0 0;color:#dbeafe}
-nav{background:white;padding:13px;display:flex;gap:18px;overflow:auto}
-nav a{color:#172554;text-decoration:none;font-weight:bold;white-space:nowrap}
-main{max-width:900px;margin:auto;padding:18px}
-.hero{background:linear-gradient(120deg,#1d4ed8,#4338ca);color:white;padding:25px;border-radius:16px}
-.hero h2{margin-top:0}
-.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:9px;margin:18px 0;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
-.card{background:white;padding:18px;border-radius:13px;box-shadow:0 2px 9px #0000000d}
-.card h3{margin:5px 0 9px}
-.card p{color:#64748b;font-size:14px}
-button{background:#2563eb;color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer}
-button:hover{background:#1d4ed8}
-#quiz{display:none;background:white;padding:20px;border-radius:14px;margin-top:20px}
-.option{display:block;width:100%;text-align:left;margin:10px 0;background:#eef2ff;color:#172033}
-.option:focus,.option:hover{background:#dbeafe}
-#result{font-weight:bold;margin-top:15px}
+main{max-width:900px;margin:auto;padding:16px}
+.card{background:white;padding:17px;border-radius:14px;margin:13px 0;box-shadow:0 3px 12px #0000000c}
+.hero{background:linear-gradient(120deg,#1d4ed8,#4338ca);color:white;padding:23px;border-radius:16px}
+h2{font-size:21px}
+button,select{font-size:15px;border:0;border-radius:9px;padding:12px}
+button{background:#2563eb;color:white;cursor:pointer}
+button:disabled{opacity:.4}
+select{background:#eef2ff;color:#172033;width:100%;margin:7px 0}
+input{padding:12px;border:1px solid #ddd;border-radius:9px;width:100%;margin:7px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.subject{background:white;color:#172033;border:1px solid #e2e8f0;text-align:left;min-height:90px}
+.subject.active{border:2px solid #2563eb;background:#eff6ff}
+.muted{color:#64748b;font-size:13px}
+.hidden{display:none!important}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{background:#e0e7ff;color:#1e40af;padding:7px 10px;border-radius:20px;font-size:13px}
+.folder{display:block;width:100%;background:#f1f5f9;color:#172033;text-align:left;margin:7px 0}
+.folder.active{background:#dbeafe;border:2px solid #2563eb}
+.option{display:block;width:100%;text-align:left;background:#f1f5f9;color:#172033;margin:9px 0;border:2px solid transparent}
+.option.selected{border-color:#2563eb;background:#dbeafe}
+.option.correct{border-color:#16a34a;background:#dcfce7}
+.option.wrong{border-color:#dc2626;background:#fee2e2}
+#timer{font-size:23px;font-weight:bold;color:#b91c1c}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:14px 0}
+.palette button{padding:10px 3px;background:#e2e8f0;color:#172033}
+.palette button.done{background:#bbf7d0}
+.palette button.current{outline:3px solid #2563eb}
+.palette button.review{background:#fde68a}
+.navbuttons{display:flex;gap:8px;margin-top:15px}
+.navbuttons button{flex:1}
+.explanation{background:#ecfdf5;border-left:4px solid #16a34a;padding:13px;border-radius:8px;margin-top:12px}
+.stat{background:#eff6ff;padding:13px;border-radius:10px;text-align:center}
+.stat strong{display:block;font-size:22px;color:#1d4ed8}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0}
 footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}main{padding:11px}}
 </style>
 </head>
 <body>
+
 <header>
-<h1>📚 Exam Pathshala</h1>
-<p>SSC | Railway | Banking | CG Vyapam</p>
+<h1>📚 CG Vyapam Exam Pathshala</h1>
+<p>CG GK | History | Geography | Online Mock Test</p>
 </header>
 
-<nav>
-<a href="#home">Home</a>
-<a href="#exams">Exams</a>
-<a href="#quiz">Online Quiz</a>
-</nav>
-
-<main id="home">
+<main>
 <section class="hero">
-<h2>आपकी सफलता की तैयारी यहाँ से!</h2>
-<p>प्रतियोगी परीक्षाओं की तैयारी करें ऑनलाइन MCQ टेस्ट के साथ।</p>
-<button onclick="showQuiz()">Free Quiz शुरू करें</button>
+<h2>छत्तीसगढ़ परीक्षा की तैयारी</h2>
+<p>Chapter-wise अभ्यास करें और Full Mock Test देकर अपना स्कोर बढ़ाएँ।</p>
+<button onclick="document.getElementById('subjects').scrollIntoView({behavior:'smooth'})">टेस्ट शुरू करें</button>
 </section>
 
-<input class="search" id="search" placeholder="अपनी परीक्षा खोजें..." oninput="filterCards()">
+<section class="card" id="subjects">
+<h2>📁 विषय चुनें</h2>
+<div class="grid" id="subjectList"></div>
+</section>
 
-<h2 id="exams">अपनी परीक्षा चुनें</h2>
-<div class="grid" id="cards">
-<div class="card">
-<h3>📘 SSC</h3>
-<p>CGL, CHSL, MTS और GD</p>
-<button onclick="showQuiz()">Practice करें</button>
-</div>
-<div class="card">
-<h3>🚆 Railway</h3>
-<p>NTPC, Group D और ALP</p>
-<button onclick="showQuiz()">Practice करें</button>
-</div>
-<div class="card">
-<h3>🏦 Banking</h3>
-<p>IBPS, SBI और Clerk</p>
-<button onclick="showQuiz()">Practice करें</button>
-</div>
-<div class="card">
-<h3>छत्तीसगढ़ Vyapam</h3>
-<p>CG GK और अन्य विषय</p>
-<button onclick="showQuiz()">Practice करें</button>
-</div>
-</div>
+<section class="card hidden" id="chapterBox">
+<h2>📂 Chapters और Topics</h2>
+<p class="muted">विषय → अध्याय → टॉपिक चुनें</p>
+<div id="chapterList"></div>
+</section>
 
-<section id="quiz">
-<h2>📝 Demo Online Quiz</h2>
+<section class="card hidden" id="testBox">
+<h2>📝 टेस्ट शुरू करें</h2>
+<p id="selectedInfo" class="muted"></p>
+<div class="grid">
+<button onclick="startTest('chapter')">Chapter-wise Test</button>
+<button onclick="startTest('full')">Full Mock Test</button>
+</div>
+<p class="muted">Chapter Test: 10 मिनट | Full Mock: 90 मिनट (प्रश्न उपलब्धता के अनुसार)</p>
+</section>
+
+<section class="card hidden" id="quizBox">
+<div class="row">
+<span class="pill" id="testType"></span>
+<span id="timer">10:00</span>
+</div>
+<div class="row">
 <p id="progress"></p>
+<p class="muted">गलत उत्तर: -0.25</p>
+</div>
 <h3 id="question"></h3>
 <div id="options"></div>
-<div id="result"></div>
-<button id="next" onclick="nextQuestion()">अगला प्रश्न</button>
+<div id="explanation" class="hidden explanation"></div>
+<div class="navbuttons">
+<button onclick="previousQuestion()">← Previous</button>
+<button onclick="nextQuestion()">Next →</button>
+</div>
+<button class="folder" onclick="togglePalette()">🔢 प्रश्न सूची दिखाएँ / छिपाएँ</button>
+<div id="palette" class="palette hidden"></div>
+<button class="folder" onclick="markReview()">⭐ Mark for Review</button>
+<button style="width:100%;background:#dc2626;margin-top:12px" onclick="submitTest(false)">टेस्ट Submit करें</button>
 </section>
-</main>
 
-<footer>
-<p>© 2026 Exam Pathshala | आपकी मेहनत, आपकी सफलता</p>
-</footer>
+<section class="card hidden" id="resultBox">
+<h2>🏆 आपका परिणाम</h2>
+<div class="grid">
+<div class="stat"><strong id="score">0</strong>कुल स्कोर</div>
+<div class="stat"><strong id="accuracy">0%</strong>Accuracy</div>
+<div class="stat"><strong id="right">0</strong>सही उत्तर</div>
+<div class="stat"><strong id="wrong">0</strong>गलत उत्तर</div>
+</div>
+<p id="resultMessage"></p>
+<button onclick="showReview()">📖 सभी उत्तर और Explanation देखें</button>
+<button onclick="restart()" style="margin-top:8px">दोबारा टेस्ट दें</button>
+</section>
+
+<section class="card hidden" id="reviewBox">
+<h2>📖 उत्तर और व्याख्या</h2>
+<div id="reviewList"></div>
+</section>
+
+<section class="card" id="leaderboard">
+<h2>🏆 Leaderboard</h2>
+<p class="muted">इस डिवाइस पर सेव किए गए टेस्ट परिणाम</p>
+<div id="leaderboardList"></div>
+<p class="muted">यह अभी स्थानीय रैंकिंग है, सभी विद्यार्थियों की Live Ranking नहीं।</p>
+</section>
+
+</main>
+<footer>© 2026 CG Vyapam Exam Pathshala</footer>
 
 <script>
-const questions=[
-{q:"छत्तीसगढ़ राज्य का गठन कब हुआ?",o:["1 नवंबर 2000","1 मई 2000","15 अगस्त 2001","26 जनवरी 2000"],a:0},
-{q:"भारत की राजधानी क्या है?",o:["मुंबई","नई दिल्ली","कोलकाता","चेन्नई"],a:1},
-{q:"2 + 8 × 2 का मान क्या है?",o:["20","18","16","12"],a:1},
-{q:"भारत का केंद्रीय बैंक कौन सा है?",o:["SBI","PNB","RBI","BOI"],a:2},
-{q:"कंप्यूटर का मस्तिष्क किसे कहा जाता है?",o:["Monitor","CPU","Mouse","Keyboard"],a:1}
-];
-let current=0,score=0,answered=false;
-
-function showQuiz(){
-document.getElementById("quiz").style.display="block";
-current=0;score=0;loadQuestion();
-document.getElementById("quiz").scrollIntoView({behavior:"smooth"});
+// QUESTION BANK
+// नए प्रश्न इसी format में जोड़ सकते हैं।
+const subjects=[
+{
+name:"छत्तीसगढ़ इतिहास",
+chapters:[
+{name:"प्राचीन इतिहास",topics:["प्रमुख स्थल","कलचुरी वंश"]},
+{name:"आधुनिक इतिहास",topics:["स्वतंत्रता आंदोलन"]}
+]
+},
+{
+name:"छत्तीसगढ़ भूगोल",
+chapters:[
+{name:"प्राकृतिक भूगोल",topics:["मानचित्र","पर्वत एवं पहाड़ियाँ","जलवायु"]},
+{name:"नदियाँ",topics:["उद्गम एवं सहायक नदियाँ","संगम स्थल"]},
+{name:"प्राकृतिक संसाधन",topics:["खनिज संसाधन","वन संसाधन"]},
+{name:"जलप्रपात",topics:["प्रमुख जलप्रपात"]}
+]
+},
+{
+name:"छत्तीसगढ़ अर्थव्यवस्था",
+chapters:[
+{name:"कृषि",topics:["प्रमुख फसलें"]},
+{name:"उद्योग",topics:["खनिज आधारित उद्योग"]}
+]
+},
+{
+name:"कला एवं संस्कृति",
+chapters:[
+{name:"लोक संस्कृति",topics:["लोकनृत्य","लोकगीत","त्योहार"]}
+]
+},
+{
+name:"सामान्य ज्ञान",
+chapters:[
+{name:"राज्य सामान्य ज्ञान",topics:["प्रमुख तथ्य"]}
+]
 }
-function loadQuestion(){
-answered=false;
-document.getElementById("progress").textContent="प्रश्न "+(current+1)+" / "+questions.length;
-document.getElementById("question").textContent=questions[current].q;
-document.getElementById("result").textContent="";
-document.getElementById("next").textContent=current===questions.length-1?"Result देखें":"अगला प्रश्न";
-document.getElementById("options").innerHTML="";
-questions[current].o.forEach((option,i)=>{
+];
+
+const questions=[
+{
+subject:"छत्तीसगढ़ इतिहास",chapter:"प्राचीन इतिहास",topic:"प्रमुख स्थल",
+q:"सिरपुर का प्राचीन नाम क्या था?",
+o:["श्रीपुर","दक्षिण कोसल","रत्नपुर","कौशलपुर"],a:0,
+e:"सिरपुर का प्राचीन नाम श्रीपुर था। यह महानदी के तट पर स्थित एक महत्वपूर्ण ऐतिहासिक स्थल है।"
+},
+{
+subject:"छत्तीसगढ़ इतिहास",chapter:"आधुनिक इतिहास",topic:"स्वतंत्रता आंदोलन",
+q:"छत्तीसगढ़ में कंडेल नहर सत्याग्रह किस वर्ष हुआ?",
+o:["1918","1920","1922","1930"],a:1,
+e:"कंडेल नहर सत्याग्रह 1920 में हुआ था। यह धमतरी क्षेत्र के किसान आंदोलन से जुड़ा था।"
+},
+{
+subject:"छत्तीसगढ़ भूगोल",chapter:"नदियाँ",topic:"उद्गम एवं सहायक नदियाँ",
+q:"महानदी का उद्गम किस स्थान से माना जाता है?",
+o:["सिहावा","मैकल","अमरकंटक","बैलाडीला"],a:0,
+e:"महानदी का उद्गम छत्तीसगढ़ के धमतरी जिले के सिहावा पर्वतीय क्षेत्र से माना जाता है।"
+},
+{
+subject:"छत्तीसगढ़ भूगोल",chapter:"नदियाँ",topic:"संगम स्थल",
+q:"राजिम किस नदियों के संगम के लिए प्रसिद्ध है?",
+o:["महानदी, पैरी और सोंढूर","महानदी और शिवनाथ","इंद्रावती और शबरी","अरपा और हसदेव"],a:0,
+e:"राजिम में महानदी, पैरी और सोंढूर नदियों का संगम होता है। इसे छत्तीसगढ़ का प्रयाग भी कहा जाता है।"
+},
+{
+subject:"छत्तीसगढ़ भूगोल",chapter:"प्राकृतिक भूगोल",topic:"पर्वत एवं पहाड़ियाँ",
+q:"मैकल पर्वत श्रेणी मुख्यतः किस क्षेत्र से संबंधित है?",
+o:["उत्तरी छत्तीसगढ़","पश्चिमी छत्तीसगढ़","दक्षिणी छत्तीसगढ़","पूर्वी छत्तीसगढ़"],a:1,
+e:"मैकल पर्वत श्रेणी का विस्तार मध्य भारत में है और इसका संबंध छत्तीसगढ़ के पश्चिमी भाग से भी है।"
+},
+{
+subject:"छत्तीसगढ़ भूगोल",chapter:"प्राकृतिक संसाधन",topic:"खनिज संसाधन",
+q:"कोरबा क्षेत्र मुख्यतः किस खनिज के लिए प्रसिद्ध है?",
+o:["लौह अयस्क","कोयला","बॉक्साइट","टिन"],a:1,
+e:"कोरबा छत्तीसगढ़ का प्रमुख कोयला उत्पादक क्षेत्र है।"
+},
+{
+subject:"छत्तीसगढ़ भूगोल",chapter:"जलप्रपात",topic:"प्रमुख जलप्रपात",
+q:"चित्रकोट जलप्रपात किस नदी पर स्थित है?",
+o:["महानदी","इंद्रावती","शिवनाथ","अरपा"],a:1,
+e:"चित्रकोट जलप्रपात बस्तर क्षेत्र में इंद्रावती नदी पर स्थित है।"
+},
+{
+subject:"छत्तीसगढ़ अर्थव्यवस्था",chapter:"कृषि",topic:"प्रमुख फसलें",
+q:"छत्तीसगढ़ की प्रमुख खाद्यान्न फसल कौन-सी है?",
+o:["गेहूँ","चावल","जौ","मक्का"],a:1,
+e:"छत्तीसगढ़ में धान प्रमुख खाद्यान्न फसल है। इसी कारण इसे धान का कटोरा कहा जाता है।"
+},
+{
+subject:"कला एवं संस्कृति",chapter:"लोक संस्कृति",topic:"लोकनृत्य",
+q:"पंथी नृत्य मुख्यतः किस समुदाय से संबंधित है?",
+o:["सतनामी","गोंड","बैगा","हल्बा"],a:0,
+e:"पंथी नृत्य सतनामी समुदाय का प्रसिद्ध धार्मिक एवं सांस्कृतिक लोकनृत्य है।"
+},
+{
+subject:"सामान्य ज्ञान",chapter:"राज्य सामान्य ज्ञान",topic:"प्रमुख तथ्य",
+q:"छत्तीसगढ़ राज्य का गठन कब हुआ?",
+o:["15 अगस्त 2000","1 नवंबर 2000","26 जनवरी 2001","1 मई 2000"],a:1,
+e:"छत्तीसगढ़ का गठन 1 नवंबर 2000 को मध्य प्रदेश से अलग होकर हुआ।"
+}
+];
+
+let selectedSubject="",selectedChapter="",selectedTopic="";
+let testQuestions=[],answers={},reviewMarks={};
+let current=0,seconds=600,timer=null,finished=false,testMode="chapter";
+
+const $=id=>document.getElementById(id);
+
+function hide(id){$(id).classList.add("hidden")}
+function show(id){$(id).classList.remove("hidden")}
+
+function renderSubjects(){
+$("subjectList").innerHTML="";
+subjects.forEach(s=>{
 let b=document.createElement("button");
-b.textContent=String.fromCharCode(65+i)+". "+option;
-b.className="option";
-b.onclick=()=>checkAnswer(i);
-document.getElementById("options").appendChild(b);
+b.className="subject";
+b.innerHTML="📁 <b>"+s.name+"</b><br><small>Chapters देखने के लिए चुनें</small>";
+b.onclick=()=>{
+selectedSubject=s.name;
+selectedChapter="";selectedTopic="";
+document.querySelectorAll(".subject").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+renderChapters();
+};
+$("subjectList").appendChild(b);
 });
 }
-function checkAnswer(i){
-if(answered)return;
-answered=true;
-if(i===questions[current].a){
-score++;
-document.getElementById("result").textContent="✅ सही उत्तर!";
-}else{
-document.getElementById("result").textContent="❌ गलत! सही उत्तर: "+questions[current].o[questions[current].a];
+
+function renderChapters(){
+show("chapterBox");hide("testBox");
+$("chapterList").innerHTML="";
+let subject=subjects.find(s=>s.name===selectedSubject);
+subject.chapters.forEach(c=>{
+let h=document.createElement("h3");
+h.textContent="📂 "+c.name;
+$("chapterList").appendChild(h);
+c.topics.forEach(t=>{
+let b=document.createElement("button");
+b.className="folder";
+b.textContent="📄 "+t;
+b.onclick=()=>{
+selectedChapter=c.name;selectedTopic=t;
+selectedInfo();
+document.querySelectorAll(".folder").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+show("testBox");
+};
+$("chapterList").appendChild(b);
+});
+});
 }
+
+function selectedInfo(){
+$("selectedInfo").textContent=selectedSubject+" → "+selectedChapter+" → "+selectedTopic;
 }
-function nextQuestion(){
-if(!answered){
-document.getElementById("result").textContent="पहले एक उत्तर चुनें।";
+
+function startTest(mode){
+testMode=mode;
+testQuestions=mode==="full"?[...questions]:questions.filter(q=>
+q.subject===selectedSubject&&q.chapter===selectedChapter&&q.topic===selectedTopic
+);
+if(!testQuestions.length){
+alert("इस Topic के प्रश्न अभी उपलब्ध नहीं हैं।");
 return;
 }
-if(current<questions.length-1){
-current++;loadQuestion();
-}else{
-document.getElementById("question").textContent="आपका टेस्ट पूरा हुआ!";
-document.getElementById("options").innerHTML="";
-document.getElementById("progress").textContent="कुल प्रश्न: "+questions.length;
-document.getElementById("result").textContent="आपका स्कोर: "+score+" / "+questions.length;
-document.getElementById("next").textContent="दोबारा टेस्ट दें";
-document.getElementById("next").onclick=showQuiz;
+answers={};reviewMarks={};current=0;finished=false;
+seconds=mode==="full"?5400:600;
+hide("subjects");hide("chapterBox");hide("testBox");hide("resultBox");hide("reviewBox");
+show("quizBox");
+$("testType").textContent=mode==="full"?"Full Mock Test":"Chapter-wise Test";
+loadQuestion();
+clearInterval(timer);
+timer=setInterval(()=>{
+seconds--;
+updateTimer();
+if(seconds<=0)submitTest(true);
+},1000);
 }
+
+function updateTimer(){
+let m=Math.floor(seconds/60),s=seconds%60;
+$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+if(seconds<=60)$("timer").style.color="#dc2626";
+else $("timer").style.color="#b91c1c";
 }
-function filterCards(){
-let value=document.getElementById("search").value.toLowerCase();
-document.querySelectorAll(".card").forEach(card=>{
-card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
+
+function loadQuestion(){
+let q=testQuestions[current];
+$("progress").textContent="प्रश्न "+(current+1)+" / "+testQuestions.length;
+$("question").textContent=q.q;
+$("options").innerHTML="";
+hide("explanation");
+q.o.forEach((o,i)=>{
+let b=document.createElement("button");
+b.className="option";
+b.textContent=String.fromCharCode(65+i)+". "+o;
+if(answers[current]===i)b.classList.add("selected");
+if(answers[current]!==undefined){
+if(i===q.a)b.classList.add("correct");
+else if(i===answers[current])b.classList.add("wrong");
+}
+b.onclick=()=>choose(i);
+$("options").appendChild(b);
+});
+if(answers[current]!==undefined)showExplanation();
+renderPalette();
+updateTimer();
+}
+
+function choose(i){
+if(finished)return;
+answers[current]=i;
+loadQuestion();
+}
+
+function showExplanation(){
+let q=testQuestions[current];
+$("explanation").innerHTML="<b>"+(answers[current]===q.a?"✅ सही उत्तर":"❌ गलत उत्तर")+"</b><br><b>सही उत्तर: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+"</b><br><br>"+q.e;
+show("explanation");
+}
+
+function previousQuestion(){
+if(current>0){current--;loadQuestion()}
+}
+function nextQuestion(){
+if(current<testQuestions.length-1){current++;loadQuestion()}
+}
+function togglePalette(){
+$("palette").classList.toggle("hidden");
+}
+function markReview(){
+reviewMarks[current]=!reviewMarks[current];
+renderPalette();
+}
+function renderPalette(){
+$("palette").innerHTML="";
+testQuestions.forEach((q,i)=>{
+let b=document.createElement("button");
+b.textContent=i+1;
+if(answers[i]!==undefined)b.classList.add("done");
+if(reviewMarks[i])b.classList.add("review");
+if(i===current)b.classList.add("current");
+b.onclick=()=>{current=i;loadQuestion()};
+$("palette").appendChild(b);
 });
 }
+
+function submitTest(auto){
+if(finished)return;
+if(!auto&&!confirm("क्या आप टेस्ट जमा करना चाहते हैं?"))return;
+finished=true;clearInterval(timer);
+let correct=0,wrong=0,unattempted=0;
+testQuestions.forEach((q,i)=>{
+if(answers[i]===undefined)unattempted++;
+else if(answers[i]===q.a)correct++;
+else wrong++;
+});
+let score=correct-wrong*0.25;
+let accuracy=testQuestions.length?Math.round(correct/testQuestions.length*100):0;
+hide("quizBox");show("resultBox");show("subjects");
+$("score").textContent=score.toFixed(2);
+$("accuracy").textContent=accuracy+"%";
+$("right").textContent=correct;
+$("wrong").textContent=wrong;
+$("resultMessage").textContent="कुल प्रश्न: "+testQuestions.length+" | छोड़े गए: "+unattempted+" | "+(auto?"समय समाप्त होने पर टेस्ट जमा हुआ।":"टेस्ट सफलतापूर्वक जमा हुआ।");
+saveScore(score,accuracy,correct,wrong);
+}
+
+function saveScore(score,accuracy,correct,wrong){
+let list=JSON.parse(localStorage.getItem("cgvyapamScores")||"[]");
+list.push({score,accuracy,correct,wrong,date:new Date().toLocaleString("hi-IN"),mode:testMode});
+list.sort((a,b)=>b.score-a.score);
+list=list.slice(0,10);
+localStorage.setItem("cgvyapamScores",JSON.stringify(list));
+renderLeaderboard();
+}
+function renderLeaderboard(){
+let list=JSON.parse(localStorage.getItem("cgvyapamScores")||"[]");
+if(!list.length){$("leaderboardList").innerHTML="<p>अभी कोई टेस्ट परिणाम नहीं है। पहला टेस्ट देकर शुरुआत करें।</p>";return}
+let html="<table><tr><th>Rank</th><th>Score</th><th>Accuracy</th><th>सही</th></tr>";
+list.forEach((x,i)=>html+="<tr><td>"+(i+1)+"</td><td>"+x.score.toFixed(2)+"</td><td>"+x.accuracy+"%</td><td>"+x.correct+"</td></tr>");
+$("leaderboardList").innerHTML=html+"</table>";
+}
+function showReview(){
+show("reviewBox");
+$("reviewList").innerHTML="";
+testQuestions.forEach((q,i)=>{
+let d=document.createElement("div");
+d.className="card";
+d.innerHTML="<b>प्रश्न "+(i+1)+": "+q.q+"</b><p>आपका उत्तर: "+(answers[i]===undefined?"नहीं दिया":q.o[answers[i]])+"</p><p>सही उत्तर: "+q.o[q.a]+"</p><p class='explanation'>"+q.e+"</p>";
+$("reviewList").appendChild(d);
+});
+$("reviewBox").scrollIntoView({behavior:"smooth"});
+}
+function restart(){
+hide("resultBox");hide("reviewBox");show("subjects");show("chapterBox");
+if(selectedSubject)renderChapters();
+}
+renderSubjects();
+renderLeaderboard();
 </script>
 </body>
 </html>
